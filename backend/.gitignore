@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+backend/config/Googe-vision-api.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
