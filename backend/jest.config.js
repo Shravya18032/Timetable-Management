@@ -1,3 +1,5 @@
+// backend/jest.config.js
 module.exports = {
-  testEnvironment: 'node',
+  setupFiles: ["./tests/setup.js"],
+  testEnvironment: "node",
 };
