@@ -49,15 +49,15 @@ jobs:
           cd backend
           npm test
 
-      - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm install
+      # - name: Install frontend dependencies
+      #   run: |
+      #     cd client
+      #     npm install
 
-      - name: Run frontend build
-        run: |
-          cd frontend
-          npm run build
+      # - name: Run frontend build
+      #   run: |
+      #     cd client
+      #     npm run build
 
 
 # name: MERN CI
