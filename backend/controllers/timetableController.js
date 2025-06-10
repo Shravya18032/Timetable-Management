@@ -74,7 +74,8 @@ exports.searchTimetable = async (req, res) => {
   if (role) query.role = role;
 
   try {
-    const timetables = await Timetable.find(query);
+    const timetables = await DailyTimetable.find(query);
+    // const timetables = await Timetable.find(query);
     res.json(timetables);
   } catch (err) {
     console.error('Search timetable error:', err);
@@ -108,7 +109,8 @@ exports.deleteTimetable = async (req, res) => {
 exports.searchFacultyByHOD = async (req, res) => {
   try {
     const hodDepartment = req.user.department;
-    const facultyTimetables = await Timetable.find({
+    const facultyTimetables = await DailyTimetable.find({
+    // const facultyTimetables = await Timetable.find({
       department: hodDepartment,
       role: 'faculty'
     });

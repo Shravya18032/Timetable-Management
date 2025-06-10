@@ -106,7 +106,7 @@ exports.loginUser = async (req, res) => {
 
     const token = generateToken(user._id, user.role, user.department, user.faculty_id);
 
-    // 💡 Construct custom user object for frontend
+    // Construct custom user object for frontend
     const userData = {
       name: user.name,
       email: user.email,
