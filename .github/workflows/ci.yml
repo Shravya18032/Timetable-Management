@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create .env file for testing
+      - name: 🛠️ Create .env.test file
         run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env
-          echo "PORT=${{ secrets.PORT }}" >> backend/.env
+          echo "MONGO_URL=${{ secrets.MONGOTESTURL }}" > backend/.env.test
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
+          echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
 
       - name: Install backend dependencies
         run: |

@@ -1,5 +1,7 @@
 const dotenv = require('dotenv');
-dotenv.config({ path: '.env.test' });
+// dotenv.config({ path: '.env.test' });
+dotenv.config({ path: require('path').resolve(__dirname, '../.env.test') });
+
 
 const request = require('supertest');
 const app = require('../app');
