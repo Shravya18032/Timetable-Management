@@ -22,11 +22,19 @@ jobs:
         with:
           node-version: 18
 
+      # - name: 🛠️ Create .env.test file
+      #   run: |
+      #     echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env.test
+      #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
+      #     echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
       - name: 🛠️ Create .env.test file
         run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env.test
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
-          echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
+          cat <<EOF > backend/.env.test
+          MONGO_URI=${{ secrets.MONGO_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          PORT=${{ secrets.PORT }}
+          EOF
+
       
       - name: Debug .env.test
         run: cat backend/.env.test
