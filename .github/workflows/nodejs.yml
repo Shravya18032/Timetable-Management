@@ -2,33 +2,40 @@ name: Backend CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 defaults:
   run:
-    working-directory: backend  
+    working-directory: backend
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]  # or your preferred Node version
+    services:
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: --quiet
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Install MongoDB tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mongodb
 
-    - name: Install dependencies
-      run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Run tests
-      run: npm test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
