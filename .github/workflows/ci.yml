@@ -24,7 +24,7 @@ jobs:
 
       - name: 🛠️ Create .env.test file
         run: |
-          echo "MONGO_URL=${{ secrets.MONGOTESTURL }}" > backend/.env.test
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env.test
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
           echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
 
