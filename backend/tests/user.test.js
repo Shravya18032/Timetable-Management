@@ -1,12 +1,14 @@
+jest.setTimeout(15000);
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const DailyTimetable = require('../models/DailyTimetable');
+const User = require('../models/User');
 
 let mongo;
 
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
-  await mongoose.connect(mongo.getUri(), { dbName: 'test' });
+  const uri = await mongo.getUri();
+await mongoose.connect(uri, { dbName: 'test' });
 });
 
 afterAll(async () => {
@@ -15,44 +17,31 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-describe('Timetable Model Test', () => {
-  it('should create and save a timetable document', async () => {
-    const timetable = new DailyTimetable({
-      day: 'Monday',
+describe('User Model Test', () => {
+  it('should create & save a user successfully', async () => {
+    const user = new User({
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: 'secure123',
+      role: 'student',
       department: 'CSE',
-      role: 'faculty',
-      facultyId: 'FAC123',
-      oddEvenTerm: 'Odd',
-      duration: '9am-5pm',
-      timetableSlots: [
-        {
-          time: '9:00 AM',
-          courseCode: 'CS101',
-          courseName: 'Intro to CS',
-          facultyName: 'Dr. Smith',
-          roomNo: 'B101',
-          roundingsTime: '9:55 AM'
-        }
-      ]
+      semester: '5',
+      section: 'A'
     });
 
-    const saved = await timetable.save();
-    expect(saved._id).toBeDefined();
-    expect(saved.day).toBe('Monday');
+    const savedUser = await user.save();
+    expect(savedUser._id).toBeDefined();
+    expect(savedUser.name).toBe('John Doe');
   });
 
-  it('should fail to save if required fields are missing', async () => {
-    const timetable = new DailyTimetable({
-      role: 'faculty'
-    });
-
+  it('should not save user without required fields', async () => {
+    const user = new User({ email: 'missing@example.com' });
     let err;
     try {
-      await timetable.save();
+      await user.save();
     } catch (error) {
       err = error;
     }
-
     expect(err).toBeDefined();
   });
 });

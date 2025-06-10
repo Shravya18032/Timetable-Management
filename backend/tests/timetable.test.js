@@ -1,12 +1,14 @@
+jest.setTimeout(15000);
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const User = require('../models/User');
+const DailyTimetable = require('../models/DailyTimetable');
 
 let mongo;
 
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
-  await mongoose.connect(mongo.getUri(), { dbName: 'test' });
+  const uri = await mongo.getUri();
+await mongoose.connect(uri, { dbName: 'test' });
 });
 
 afterAll(async () => {
@@ -15,31 +17,44 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-describe('User Model Test', () => {
-  it('should create & save a user successfully', async () => {
-    const user = new User({
-      name: 'John Doe',
-      email: 'john@example.com',
-      password: 'secure123',
-      role: 'student',
+describe('Timetable Model Test', () => {
+  it('should create and save a timetable document', async () => {
+    const timetable = new DailyTimetable({
+      day: 'Monday',
       department: 'CSE',
-      semester: '5',
-      section: 'A'
+      role: 'faculty',
+      facultyId: 'FAC123',
+      oddEvenTerm: 'Odd',
+      duration: '9am-5pm',
+      timetableSlots: [
+        {
+          time: '9:00 AM',
+          courseCode: 'CS101',
+          courseName: 'Intro to CS',
+          facultyName: 'Dr. Smith',
+          roomNo: 'B101',
+          roundingsTime: '9:55 AM'
+        }
+      ]
     });
 
-    const savedUser = await user.save();
-    expect(savedUser._id).toBeDefined();
-    expect(savedUser.name).toBe('John Doe');
+    const saved = await timetable.save();
+    expect(saved._id).toBeDefined();
+    expect(saved.day).toBe('Monday');
   });
 
-  it('should not save user without required fields', async () => {
-    const user = new User({ email: 'missing@example.com' });
+  it('should fail to save if required fields are missing', async () => {
+    const timetable = new DailyTimetable({
+      role: 'faculty'
+    });
+
     let err;
     try {
-      await user.save();
+      await timetable.save();
     } catch (error) {
       err = error;
     }
+
     expect(err).toBeDefined();
   });
 });
