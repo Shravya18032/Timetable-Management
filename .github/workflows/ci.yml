@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create .env.test file
+      - name: Create .env file for testing
         run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.test
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
-          echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env
+          echo "PORT=${{ secrets.PORT }}" >> backend/.env
 
       - name: Install backend dependencies
         run: |
@@ -36,7 +36,6 @@ jobs:
       - name: Run backend tests
         run: |
           cd backend
-          cp .env.test .env  # Make sure Jest reads from `.env`
           npm test
 
       - name: Install frontend dependencies
@@ -48,7 +47,6 @@ jobs:
         run: |
           cd frontend
           npm run build
-
 
 
 # name: MERN CI
@@ -112,3 +110,30 @@ jobs:
 #         run: |
 #           cd frontend
 #           npm run build
+
+
+# Hale CI attempt.
+      # - name: Checkout code
+      #   uses: actions/checkout@v3
+
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 18
+
+      # - name: Create .env.test file
+      #   run: |
+      #     echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env.test
+      #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
+      #     echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
+
+      # - name: Install backend dependencies
+      #   run: |
+      #     cd backend
+      #     npm install
+
+      # - name: Run backend tests
+      #   run: |
+      #     cd backend
+      #     cp .env.test .env  # Make sure Jest reads from `.env`
+      #     npm test
