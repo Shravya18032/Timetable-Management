@@ -27,6 +27,9 @@ jobs:
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env.test
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.test
           echo "PORT=${{ secrets.PORT }}" >> backend/.env.test
+      
+      - name: Debug .env.test
+        run: cat backend/.env.test
 
       - name: Install backend dependencies
         run: |
