@@ -24,3 +24,4 @@ backend/config/Googe-vision-api.json
 *.njsproj
 *.sln
 *.sw?
+.github/workflows/.env.test

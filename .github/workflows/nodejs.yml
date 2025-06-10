@@ -18,20 +18,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install MongoDB (required for mongodb-memory-server)
-        run: |
-          curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
-          echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
-          sudo apt-get update
-          sudo apt-get install -y mongodb-org
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies and predownload MongoDB binary
+        run: |
+          npm install
+          npx mongodb-memory-server@8.12.1 postinstall || true
 
       - name: Run backend tests
         run: npm test
